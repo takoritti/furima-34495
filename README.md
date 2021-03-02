@@ -16,7 +16,7 @@
 ### アソシエーション
 has_many :items
 has_many :comments
-has_many :purchase_record
+has_many :purchase_records
 
 ## itemsテーブル
 
@@ -29,7 +29,7 @@ has_many :purchase_record
 | status_id        | integer   | null: false |
 | shipping_fee_id  | integer   | null: false |
 | prefecture_id    | integer   | null: false |
-| shipping_days_id | integer   | null: false |
+| shipping_day_id | integer   | null: false |
 | price            | integer   | null: false |
 | user             | references| foreign_key: true  |
 
@@ -38,7 +38,7 @@ belongs_to :user
 has_one :purchase_record
 has_many :comments
 
-## shipping_informationテーブル
+## shipping_informationsテーブル
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
@@ -53,7 +53,7 @@ has_many :comments
 ### アソシエーション
 belongs_to :purchase_record
 
-## purchase_recordテーブル
+## purchase_recordsテーブル
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
@@ -61,9 +61,8 @@ belongs_to :purchase_record
 | item             | references| foreign_key: true |
 
 ### アソシエーション
-has_one :purchase_record
+has_one :shipping_information
 belongs_to :item
-has_many :comments
 belongs_to :user
 
 ## commentsテーブル
@@ -77,4 +76,3 @@ belongs_to :user
 ### アソシエーション
 belongs_to :user
 belongs_to :item
-belongs_to :purchase_record
