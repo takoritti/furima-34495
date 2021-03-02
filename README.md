@@ -1,24 +1,78 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル
 
-Things you may want to cover:
+| Column            | Type   | Options     |
+| ----------------- | ------ | ----------- |
+| nickname          | string | null: false |
+| email             | string | null: false,unique:true |
+| encrypted_password| string | null: false |
+| name_family       | string | null: false |
+| name_family_kana  | string | null: false |
+| name_first        | string | null: false |
+| name_first_kana   | string | null: false |
+| birth_day         | date   | null: false |
 
-* Ruby version
+### アソシエーション
+has_many :items
+has_many :comments
+has_many :purchase_records
 
-* System dependencies
+## itemsテーブル
 
-* Configuration
 
-* Database creation
+| Column           | Type      | Options     |
+| ---------------- | --------- | ----------- |
+| name             | string    | null: false |
+| information      | text      | null: false |
+| category_id      | integer   | null: false |
+| status_id        | integer   | null: false |
+| shipping_fee_id  | integer   | null: false |
+| prefecture_id    | integer   | null: false |
+| shipping_day_id | integer   | null: false |
+| price            | integer   | null: false |
+| user             | references| foreign_key: true  |
 
-* Database initialization
+### アソシエーション
+belongs_to :user
+has_one :purchase_record
+has_many :comments
 
-* How to run the test suite
+## shipping_informationsテーブル
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column           | Type      | Options     |
+| ---------------- | --------- | ----------- |
+| postal_code      | string    | null: false |
+| prefecture_id    | integer   | null: false |
+| municipality     | string    | null: false |
+| address          | string    | null: false |
+| building_name    | string    |             |
+| phone_number     | string    | null: false |
+| purchase_record  | references| foreign_key: true |
 
-* Deployment instructions
+### アソシエーション
+belongs_to :purchase_record
 
-* ...
+## purchase_recordsテーブル
+
+| Column           | Type      | Options     |
+| ---------------- | --------- | ----------- |
+| user             | references| foreign_key: true |
+| item             | references| foreign_key: true |
+
+### アソシエーション
+has_one :shipping_information
+belongs_to :item
+belongs_to :user
+
+## commentsテーブル
+
+| Column           | Type      | Options     |
+| ---------------- | --------- | ----------- |
+| text             | text      | null: false |
+| user             | references| foreign_key: true |
+| item             | references| foreign_key: true |
+
+### アソシエーション
+belongs_to :user
+belongs_to :item
