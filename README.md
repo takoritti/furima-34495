@@ -2,18 +2,18 @@
 
 ## usersテーブル
 
-| Column           | Type   | Options     |
-| ---------------- | ------ | ----------- |
-| nickname         | string | null: false |
-| email            | string | null: false,unique:true |
-| password         | string | null: false |
-| name_family      | string | null: false |
-| name_family_kana | string | null: false |
-| name_first       | string | null: false |
-| name_first_kana  | string | null: false |
-| birth_year       | integer| null: false |
-| birth_month      | integer| null: false |
-| birth_day        | integer| null: false |
+| Column            | Type   | Options     |
+| ----------------- | ------ | ----------- |
+| nickname          | string | null: false |
+| email             | string | null: false,unique:true |
+| encrypted_password| string | null: false |
+| name_family       | string | null: false |
+| name_family_kana  | string | null: false |
+| name_first        | string | null: false |
+| name_first_kana   | string | null: false |
+| birth_year        | date   | null: false |
+| birth_month       | date   | null: false |
+| birth_day         | date   | null: false |
 
 ### アソシエーション
 has_many :items
@@ -24,14 +24,13 @@ has_many :comments
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
-| image            |           | null: false |
-| string           | string    | null: false |
-| text             | text      | null: false |
-| category         | integer   | null: false |
-| status           | integer   | null: false |
-| shipping_fee     | integer   | null: false |
-| shipping_area    | integer   | null: false |
-| shipping_days    | integer   | null: false |
+| name             | string    | null: false |
+| information      | text      | null: false |
+| category_id      | integer   | null: false |
+| status_id        | integer   | null: false |
+| shipping_fee_id  | integer   | null: false |
+| prefecture_id    | integer   | null: false |
+| shipping_days_id | integer   | null: false |
 | price            | integer   | null: false |
 | users            | references| foreign_key: true  |
 
@@ -44,12 +43,12 @@ has_many :comments
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
-| postal_code      | integer   | null: false |
-| prefectures      | string    | null: false |
+| postal_code      | string    | null: false |
+| prefecture_id    | integer   | null: false |
 | municipality     | string    | null: false |
 | address          | string    | null: false |
 | building_name    | string    |             |
-| phone_number     | integer   | null: false |
+| phone_number     | string    | null: false |
 | purchase_record  | references| foreign_key: true |
 
 ### アソシエーション
@@ -59,8 +58,8 @@ belongs_to :purchase_record
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
-| buyer            | string    | null: false |
-| items            | references| foreign_key: true |
+| user             | references| foreign_key: true |
+| item             | references| foreign_key: true |
 
 ### アソシエーション
 has_one :purchase_record
