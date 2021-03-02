@@ -11,7 +11,7 @@
 | name_family_kana  | string | null: false |
 | name_first        | string | null: false |
 | name_first_kana   | string | null: false |
-| birth_day_id      | date   | null: false |
+| birth_day         | date   | null: false |
 
 ### アソシエーション
 has_many :items
