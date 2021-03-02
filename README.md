@@ -11,13 +11,12 @@
 | name_family_kana  | string | null: false |
 | name_first        | string | null: false |
 | name_first_kana   | string | null: false |
-| birth_year        | date   | null: false |
-| birth_month       | date   | null: false |
-| birth_day         | date   | null: false |
+| birth_day_id      | date   | null: false |
 
 ### アソシエーション
 has_many :items
 has_many :comments
+has_many :purchase_record
 
 ## itemsテーブル
 
@@ -32,10 +31,10 @@ has_many :comments
 | prefecture_id    | integer   | null: false |
 | shipping_days_id | integer   | null: false |
 | price            | integer   | null: false |
-| users            | references| foreign_key: true  |
+| user             | references| foreign_key: true  |
 
 ### アソシエーション
-belongs_to :users
+belongs_to :user
 has_one :purchase_record
 has_many :comments
 
@@ -63,18 +62,19 @@ belongs_to :purchase_record
 
 ### アソシエーション
 has_one :purchase_record
-belongs_to :items
+belongs_to :item
 has_many :comments
+belongs_to :user
 
 ## commentsテーブル
 
 | Column           | Type      | Options     |
 | ---------------- | --------- | ----------- |
 | text             | text      | null: false |
-| users            | references| foreign_key: true |
-| items            | references| foreign_key: true |
+| user             | references| foreign_key: true |
+| item             | references| foreign_key: true |
 
 ### アソシエーション
-belongs_to :users
-belongs_to :items
+belongs_to :user
+belongs_to :item
 belongs_to :purchase_record
