@@ -22,3 +22,9 @@ class ItemsController < ApplicationController
   #   redirect_to root_path
   # end
 end
+
+private
+
+def item_params
+  params.require(:item).permit(:content, :image).merge(user_id: current_user.id)
+end
