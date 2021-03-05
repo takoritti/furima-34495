@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  describe '#create' do
+  describe '商品出品' do
     before do
       @item = FactoryBot.build(:item)
     end
     context '新規登録ができる時' do
       it '必要な情報を適切に入力すると、商品情報がデータベースに保存されること' do
-        @item
         expect(@item).to be_valid
       end
     end
@@ -59,17 +58,27 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
       it '販売価格は、¥300以下では保存できないこと' do
-        @item.price = '299'
+        @item.price = 299
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
       it '販売価格は、¥9,999,999以上では保存できないこと' do
-        @item.price = '10000000'
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
-      it '販売価格は半角数字のみ保存可能であること' do
+      it '販売価格は全角文字では登録できないこと' do
         @item.price = '１０００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price is not a number')
+      end
+      it '販売価格は半角英数混合では登録できないこと' do
+        @item.price = '123aaa'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price is not a number')
+      end
+      it '販売価格は半角英語だけでは登録できないこと' do
+        @item.price = 'aaaaa'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
       end
