@@ -10,7 +10,6 @@ class Item < ApplicationRecord
   belongs_to :shipping_fee
   belongs_to :prefecture
   belongs_to :shipping_day
-  
 
   with_options presence: true do
     validates :name
@@ -22,17 +21,15 @@ class Item < ApplicationRecord
     validates :shipping_day_id
     validates :price
     validates :image
-
   end
-    validates :price, numericality: {:greater_than_or_equal_to => 300,  
-                                     :less_than_or_equal_to => 9999999
-                                    }
-  
-  
-  with_options numericality: { other_than: 0 }  do
+  validates :price, numericality: { greater_than_or_equal_to: 300,
+                                    less_than_or_equal_to: 9_999_999 }
+
+  with_options numericality: { other_than: 0 } do
     validates :category_id
     validates :status_id
     validates :shipping_fee_id
     validates :prefecture_id
-    validates :shipping_day_id  end
+    validates :shipping_day_id
+  end
 end

@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
         expect(@user).to be_valid
       end
 
-    context '新規登録ができない時' do
+      context '新規登録ができない時' do
       end
       it 'ニックネームが必須であること' do
         @user.nickname = ''
@@ -70,7 +70,7 @@ RSpec.describe User, type: :model do
       it 'パスワードは、全角では登録できないこと' do
         @user.password = '１１１ａａａ'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid")
+        expect(@user.errors.full_messages).to include('Password is invalid')
       end
       it 'パスワードは、確認用を含めて2回入力すること' do
         @user.password_confirmation = ''
