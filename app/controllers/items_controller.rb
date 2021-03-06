@@ -11,7 +11,8 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to root_parh
+      redirect_to root_path root_url
+
     else
       render :new
     end
