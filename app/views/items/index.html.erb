@@ -127,9 +127,10 @@
     <ul class='item-lists'>
    <% @items.each do |i| %>
       <li class='list'>
+        <%= link_to item_path(@items.ids) do %>
         <div class='item-img-content'>
           <%= image_tag i.image, class: "item-img" %>
-
+        <% end %>
           <%# 商品が売れていればsold outを表示しましょう %>
           <%# <div class='sold-out'>
             <span>Sold Out!!</span>
