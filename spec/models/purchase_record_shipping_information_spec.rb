@@ -4,7 +4,8 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
   describe '購入情報の保存' do
     before do
       user = FactoryBot.create(:user)
-      @purchase_record_shipping_information = FactoryBot.build(:purchase_record_shipping_information, user_id: user.id)
+      item = FactoryBot.create(:user)
+      @purchase_record_shipping_information = FactoryBot.build(:purchase_record_shipping_information, user_id: user.id, item_id: item.id)
     end
 
     context '購入ができない時' do
@@ -56,19 +57,25 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
         expect(@purchase_record_shipping_information.errors.full_messages).to include("Phone number can't be blank")
       end
 
+      it '電話番号はが12桁以上では登録できないこと' do
+        @purchase_record_shipping_information.phone_number = '111111111111'
+        @purchase_record_shipping_information.valid?
+        expect(@purchase_record_shipping_information.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
+      end
+
       it 'tokenが空では登録できないこと' do
         @purchase_record_shipping_information.token = nil
         @purchase_record_shipping_information.valid?
         expect(@purchase_record_shipping_information.errors.full_messages).to include("Token can't be blank")
       end
 
-      it 'tokenが空では登録できないこと' do
+      it 'user_idが空では登録できないこと' do
         @purchase_record_shipping_information.user_id = " "
         @purchase_record_shipping_information.valid?
         expect(@purchase_record_shipping_information.errors.full_messages).to include("User can't be blank")
       end
 
-      it 'tokenが空では登録できないこと' do
+      it 'item_idが空では登録できないこと' do
         @purchase_record_shipping_information.item_id = " "
         @purchase_record_shipping_information.valid?
         expect(@purchase_record_shipping_information.errors.full_messages).to include("Item can't be blank")
