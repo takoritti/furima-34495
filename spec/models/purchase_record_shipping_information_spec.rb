@@ -7,7 +7,7 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
       @purchase_record_shipping_information = FactoryBot.build(:purchase_record_shipping_information, user_id: user.id)
     end
 
-    context '新規登録ができない時' do
+    context '購入ができない時' do
     
     it '配送先の情報として、郵便番号が必須であること' do
       @purchase_record_shipping_information.postal_code = ' '
@@ -56,9 +56,15 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
         @purchase_record_shipping_information.valid?
         expect(@purchase_record_shipping_information.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
       end
+
+      it "tokenが空では登録できないこと" do
+        @purchase_record_shipping_information.token = nil
+        @purchase_record_shipping_information.valid?
+        expect(@purchase_record_shipping_information.errors.full_messages).to include("Token can't be blank")
+      end
     end
 
-    context '新規登録ができる時' do
+    context '購入ができる時' do
 
       it '配送先の情報として、ビル名がなくても保存可能なこと' do
         @purchase_record_shipping_information.building_name = ' '
