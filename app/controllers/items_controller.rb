@@ -24,7 +24,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-
+    redirect_to action: :index unless @item.purchase_record.nil?
   end
 
   def update
@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
       render :edit
     end
   end
-  
+
   def destroy
     @item.destroy
     redirect_to root_path
@@ -54,7 +54,5 @@ def item
 end
 
 def judge
-  unless @item.user.id == current_user.id
-    redirect_to action: :index
-  end
+  redirect_to action: :index unless @item.user.id == current_user.id
 end
