@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :destroy]
   before_action :item, only: [:show, :edit, :update, :destroy]
   before_action :judge, only: [:edit, :update, :destroy]
-
+  before_action :sold_out_judge, only: [:edit, :update]
   def index
     @items = Item.includes(:user).order('created_at DESC')
   end
@@ -24,9 +24,6 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    unless @item.purchase_record == nil
-      redirect_to action: :index
-    end
   end
 
   def update
@@ -58,5 +55,11 @@ end
 def judge
   unless @item.user.id == current_user.id
     redirect_to action: :index
+  end
+
+  def sold_out_judge
+    unless @item.purchase_record == nil
+      redirect_to action: :index
+    end
   end
 end

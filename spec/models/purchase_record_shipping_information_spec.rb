@@ -44,16 +44,16 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
         expect(@purchase_record_shipping_information.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
 
-      it '電話番号は11桁以内の数値のみ保存可能なこと（09012345678となる）' do
-        @purchase_record_shipping_information.phone_number = '111111111111'
+      it '電話番号は英数混合では登録できないこと' do
+        @purchase_record_shipping_information.phone_number = '111aaaa1111'
         @purchase_record_shipping_information.valid?
-        expect(@purchase_record_shipping_information.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
+        expect(@purchase_record_shipping_information.errors.full_messages).to include('Phone number is not a number')
       end
 
-      it '電話番号は11桁以内の数値のみ保存可能なこと（09012345678となる）' do
-        @purchase_record_shipping_information.phone_number = '111111111111'
+      it '電話番号は空では登録できないこと' do
+        @purchase_record_shipping_information.phone_number = ' '
         @purchase_record_shipping_information.valid?
-        expect(@purchase_record_shipping_information.errors.full_messages).to include('Phone number is too long (maximum is 11 characters)')
+        expect(@purchase_record_shipping_information.errors.full_messages).to include("Phone number can't be blank")
       end
 
       it 'tokenが空では登録できないこと' do
@@ -61,11 +61,27 @@ RSpec.describe PurchaseRecordShippingInformation, type: :model do
         @purchase_record_shipping_information.valid?
         expect(@purchase_record_shipping_information.errors.full_messages).to include("Token can't be blank")
       end
+
+      it 'tokenが空では登録できないこと' do
+        @purchase_record_shipping_information.user_id = " "
+        @purchase_record_shipping_information.valid?
+        expect(@purchase_record_shipping_information.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'tokenが空では登録できないこと' do
+        @purchase_record_shipping_information.item_id = " "
+        @purchase_record_shipping_information.valid?
+        expect(@purchase_record_shipping_information.errors.full_messages).to include("Item can't be blank")
+      end
     end
 
     context '購入ができる時' do
       it '配送先の情報として、ビル名がなくても保存可能なこと' do
         @purchase_record_shipping_information.building_name = ' '
+        expect(@purchase_record_shipping_information).to be_valid
+      end
+      
+      it '全ての情報が揃っている場合は保存可能なこと' do
         expect(@purchase_record_shipping_information).to be_valid
       end
     end
